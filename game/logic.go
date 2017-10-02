@@ -14,7 +14,15 @@ var (
 
 func Index(res http.ResponseWriter, req *http.Request) {}
 func Read(res http.ResponseWriter, req *http.Request) {
+	id := mux.Vars(req)["id"]
 
+	game, ok := Games.Load(id)
+	fmt.Println(game)
+
+	if !ok {
+		json.NewEncoder(res).Encode("Could not find game")
+	}
+	json.NewEncoder(res).Encode(game)
 }
 
 func Create(res http.ResponseWriter, req *http.Request) {
@@ -29,6 +37,4 @@ func Create(res http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(res).Encode(game)
 }
 func Update(res http.ResponseWriter, req *http.Request) {
-	guess := mux.Vars(req)["guess"]
-	println(guess)
 }
