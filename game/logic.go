@@ -31,6 +31,7 @@ func Read(res http.ResponseWriter, req *http.Request) {
 	if !ok {
 		json.NewEncoder(res).Encode("Could not find game")
 	}
+
 	json.NewEncoder(res).Encode(game)
 }
 
@@ -45,5 +46,29 @@ func Create(res http.ResponseWriter, req *http.Request) {
 	}
 	json.NewEncoder(res).Encode(game)
 }
+
 func Update(res http.ResponseWriter, req *http.Request) {
+	id := mux.Vars(req)["id"]
+
+	data, ok := Games.Load(id)
+
+	if !ok {
+		json.NewEncoder(res).Encode("This game does not exist")
+	}
+
+	game := data.(*Game)
+
+	if game.Complete {
+		json.NewEncoder(res).Encode("This game has already been completed")
+	}
+
+	var guess Guess
+	err := json.NewDecoder(req.Body).Decode(&guess)
+
+	if err != nil {
+		json.NewEncoder(res).Encode("Invalid Letter")
+	}
+
+	game.TakeTurn(&guess)
+	json.NewEncoder(res).Encode(game)
 }
