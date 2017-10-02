@@ -12,12 +12,21 @@ var (
 	Games = syncmap.Map{}
 )
 
-func Index(res http.ResponseWriter, req *http.Request) {}
+func Index(res http.ResponseWriter, req *http.Request) {
+	games := []interface{}{}
+
+	Games.Range(func(id, game interface{}) bool {
+		games = append(games, game)
+		return true
+	})
+
+	json.NewEncoder(res).Encode(games)
+}
+
 func Read(res http.ResponseWriter, req *http.Request) {
 	id := mux.Vars(req)["id"]
 
 	game, ok := Games.Load(id)
-	fmt.Println(game)
 
 	if !ok {
 		json.NewEncoder(res).Encode("Could not find game")
