@@ -43,10 +43,10 @@ func (self *Game) TakeTurn(guess *Guess) (finished bool) {
 
 	if self.play(letter) {
 		self.updateRemaining(letter)
-		self.GuessedLetters[letter] = true
 	} else {
 		self.Strikes++
 	}
+	self.GuessedLetters[letter] = true
 
 	if self.finished() {
 		finished = true
