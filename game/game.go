@@ -19,11 +19,17 @@ type Guess struct {
 	Letter string
 }
 
+var SillyStuff = map[string]func() string{
+	"Word": func() string { return strings.ToLower(randomdata.City()) },
+	"Id":   func() string { return strings.ToLower(randomdata.SillyName()) },
+}
+
 func CreateGame() Game {
-	word := strings.ToLower(randomdata.City())
+	word := SillyStuff["Word"]()
+	id := SillyStuff["Id"]()
 	return Game{
 		word,
-		strings.ToLower(randomdata.SillyName()),
+		id,
 		[]rune(word),
 		map[rune]bool{},
 		0,
