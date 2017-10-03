@@ -8,9 +8,8 @@ import (
 func TestCreateGameGeneration(t *testing.T) {
 	testGeneratedStuff := map[string]string{"Word": "TestWord", "Id": "TestId"}
 
-	for key, expected := range testGeneratedStuff {
-		SillyStuff[key] = func() string { return expected }
-	}
+	SillyStuff["Word"] = func() string { return "TestWord" }
+	SillyStuff["Id"] = func() string { return "TestId" }
 
 	game := CreateGame()
 
