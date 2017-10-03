@@ -36,7 +36,9 @@ get deps:
 run the tests
 ```bash
   # inside the repo
-  $ go test 
+  $ go test -v ./game
+  # right now the only package with tests is game
+  
 ```
 *a note on testing: before any further features are added I would like to unit test the public API of this program with enough variance in data to cover all cases. Due to time restrictions this has not been possible*
 
