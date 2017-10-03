@@ -35,20 +35,20 @@ func CreateGame() Game {
 func (self *Game) TakeTurn(guess *Guess) (finished bool) {
 	letter := []rune(guess.Letter)[0]
 
-	if self.Play(letter) {
-		self.UpdateRemaining(letter)
+	if self.play(letter) {
+		self.updateRemaining(letter)
 		self.GuessedLetters[letter] = true
 	} else {
 		self.Strikes++
 	}
 
-	if self.Finished() {
+	if self.finished() {
 		finished = true
 	}
 	return
 }
 
-func (self *Game) Play(letter rune) (included bool) {
+func (self *Game) play(letter rune) (included bool) {
 	for _, l := range self.Remaining {
 		if letter == l {
 			return true
@@ -57,7 +57,7 @@ func (self *Game) Play(letter rune) (included bool) {
 	return
 }
 
-func (self *Game) UpdateRemaining(letter rune) {
+func (self *Game) updateRemaining(letter rune) {
 	var remaining []rune
 	for _, l := range self.Remaining {
 		if l != letter {
@@ -67,7 +67,7 @@ func (self *Game) UpdateRemaining(letter rune) {
 	self.Remaining = remaining
 }
 
-func (self *Game) Finished() (finished bool) {
+func (self *Game) finished() (finished bool) {
 
 	if self.Strikes > 10 {
 		finished = true
